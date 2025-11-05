@@ -147,6 +147,12 @@ export interface ApiProps extends ApiBaseProps {
 
   /** Props to configure the underlying CDK `apigateway.RestApi`. */
   readonly restApiProps?: RestApiProps;
+
+  /**
+   * Props to set whether CDK automatically updates invoke permission for lambda.
+   * Must be `false` when selecting cross-account lambda functions.
+   */
+  readonly neverUpdatePermissions?: boolean;
 }
 
 /** Paths with methods containing integrations. */

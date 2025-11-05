@@ -9,9 +9,9 @@ const project = new awscdk.AwsCdkConstructLibrary({
   authorName: 'Alma Media',
   authorOrganization: true,
   authorAddress: 'opensource@almamedia.dev',
-  name: '@alma-cdk/openapix',
+  name: '@tbs-cardamom/openapix',
   description: 'Combine the power of AWS CDK & OpenAPI YAML Schema Definitions',
-  repositoryUrl: 'https://github.com/alma-cdk/openapix.git',
+  repositoryUrl: 'https://github.com/tbs-cardamom/openapix.git',
   keywords: ['cdk', 'aws-cdk', 'awscdk', 'aws', 'cloudfront', 'api-gateway', 'rest-api', 'open-api', 'swagger'],
 
   // Publish configuration
@@ -25,14 +25,13 @@ const project = new awscdk.AwsCdkConstructLibrary({
     },
   },
   packageManager: javascript.NodePackageManager.NPM,
-  npmAccess: javascript.NpmAccess.PUBLIC,
+  npmAccess: javascript.NpmAccess.RESTRICTED,
+  npmRegistryUrl: 'https://npm.pkg.github.com',
+  npmTokenSecret: 'NPM_TOKEN',
   //   python: {
   //     distName: 'alma-cdk.openapix',
   //     module: 'alma_cdk.openapix',
   //   },
-  publishToGo: {
-    moduleName: 'github.com/alma-cdk/openapix-go',
-  },
 
   // Dependencies
   minNodeVersion: nodejsVersion,

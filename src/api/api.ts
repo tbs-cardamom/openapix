@@ -57,11 +57,13 @@ export class Api extends SpecRestApi {
       ...props.restApiProps,
     });
 
-    // Allow the API Gateway to invoke given Lambda function integrations
-    this.grantLambdaInvokes(props.paths);
+    if (!props.neverUpdatePermissions) {
+      // Allow the API Gateway to invoke given Lambda function integrations
+      this.grantLambdaInvokes(props.paths);
 
-    // Allow the API Gateway to invoke given Lambda authorizer integrations
-    this.grantLambdaAuthorizerInvokes(props.authorizers);
+      // Allow the API Gateway to invoke given Lambda authorizer integrations
+      this.grantLambdaAuthorizerInvokes(props.authorizers);
+    }
 
     // Expose the processed OpenApi v3 document.
     // Mainly used for testing.

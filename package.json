@@ -1,9 +1,9 @@
 {
-  "name": "@alma-cdk/openapix",
+  "name": "@tbs-cardamom/openapix",
   "description": "Combine the power of AWS CDK & OpenAPI YAML Schema Definitions",
   "repository": {
     "type": "git",
-    "url": "https://github.com/alma-cdk/openapix.git"
+    "url": "https://github.com/tbs-cardamom/openapix.git"
   },
   "scripts": {
     "build": "npx projen build",
@@ -17,7 +17,6 @@
     "eslint": "npx projen eslint",
     "package": "npx projen package",
     "package-all": "npx projen package-all",
-    "package:go": "npx projen package:go",
     "package:js": "npx projen package:js",
     "post-compile": "npx projen post-compile",
     "post-upgrade": "npx projen post-upgrade",
@@ -101,7 +100,7 @@
   "main": "lib/index.js",
   "license": "Apache-2.0",
   "publishConfig": {
-    "access": "public"
+    "registry": "https://npm.pkg.github.com/"
   },
   "version": "0.0.0",
   "jest": {
@@ -148,11 +147,7 @@
   "stability": "experimental",
   "jsii": {
     "outdir": "dist",
-    "targets": {
-      "go": {
-        "moduleName": "github.com/alma-cdk/openapix-go"
-      }
-    },
+    "targets": {},
     "tsc": {
       "outDir": "lib",
       "rootDir": "src"
