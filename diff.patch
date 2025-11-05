@@ -1,0 +1,73 @@
+diff --git a/.projenrc.js b/.projenrc.js
+index f022a82..f0ca355 100644
+--- a/.projenrc.js
++++ b/.projenrc.js
+@@ -9,9 +9,9 @@ const project = new awscdk.AwsCdkConstructLibrary({
+   authorName: 'Alma Media',
+   authorOrganization: true,
+   authorAddress: 'opensource@almamedia.dev',
+-  name: '@alma-cdk/openapix',
++  name: '@tbs-cardamom/openapix',
+   description: 'Combine the power of AWS CDK & OpenAPI YAML Schema Definitions',
+-  repositoryUrl: 'https://github.com/alma-cdk/openapix.git',
++  repositoryUrl: 'https://github.com/tbs-cardamom/openapix.git',
+   keywords: ['cdk', 'aws-cdk', 'awscdk', 'aws', 'cloudfront', 'api-gateway', 'rest-api', 'open-api', 'swagger'],
+ 
+   // Publish configuration
+@@ -25,14 +25,13 @@ const project = new awscdk.AwsCdkConstructLibrary({
+     },
+   },
+   packageManager: javascript.NodePackageManager.NPM,
+-  npmAccess: javascript.NpmAccess.PUBLIC,
++  npmAccess: javascript.NpmAccess.RESTRICTED,
++  npmRegistryUrl: 'https://npm.pkg.github.com',
++  npmTokenSecret: 'NPM_TOKEN',
+   //   python: {
+   //     distName: 'alma-cdk.openapix',
+   //     module: 'alma_cdk.openapix',
+   //   },
+-  publishToGo: {
+-    moduleName: 'github.com/alma-cdk/openapix-go',
+-  },
+ 
+   // Dependencies
+   minNodeVersion: nodejsVersion,
+diff --git a/src/api/api.ts b/src/api/api.ts
+index 8e0913b..4b71fac 100644
+--- a/src/api/api.ts
++++ b/src/api/api.ts
+@@ -57,11 +57,13 @@ export class Api extends SpecRestApi {
+       ...props.restApiProps,
+     });
+ 
+-    // Allow the API Gateway to invoke given Lambda function integrations
+-    this.grantLambdaInvokes(props.paths);
++    if (!props.neverUpdatePermissions) {
++      // Allow the API Gateway to invoke given Lambda function integrations
++      this.grantLambdaInvokes(props.paths);
+ 
+-    // Allow the API Gateway to invoke given Lambda authorizer integrations
+-    this.grantLambdaAuthorizerInvokes(props.authorizers);
++      // Allow the API Gateway to invoke given Lambda authorizer integrations
++      this.grantLambdaAuthorizerInvokes(props.authorizers);
++    }
+ 
+     // Expose the processed OpenApi v3 document.
+     // Mainly used for testing.
+diff --git a/src/api/props.ts b/src/api/props.ts
+index 961a4aa..b8f3e95 100644
+--- a/src/api/props.ts
++++ b/src/api/props.ts
+@@ -147,6 +147,12 @@ export interface ApiProps extends ApiBaseProps {
+ 
+   /** Props to configure the underlying CDK `apigateway.RestApi`. */
+   readonly restApiProps?: RestApiProps;
++
++  /**
++   * Props to set whether CDK automatically updates invoke permission for lambda.
++   * Must be `false` when selecting cross-account lambda functions.
++   */
++  readonly neverUpdatePermissions?: boolean;
+ }
+ 
+ /** Paths with methods containing integrations. */
